@@ -1,21 +1,26 @@
-import { Sidebar } from '@/components/layout/sidebar';
-import { Topbar } from '@/components/layout/topbar';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+import Sidebar from '@/components/layout/Sidebar';
+import Navbar from '@/components/layout/Navbar';
 
-export default function DashboardLayout({
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="flex h-screen overflow-hidden bg-surface-0">
-      {/* Sidebar */}
-      <Sidebar />
+  const session = await auth();
 
-      {/* Main Content Area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <Topbar />
-        <main className="flex-1 overflow-y-auto p-6 lg:p-8">
-          <div className="mx-auto max-w-7xl">
+  if (!session?.user) {
+    redirect('/login');
+  }
+
+  return (
+    <div className="flex min-h-screen bg-gray-50 dark:bg-[#0a0a0f] text-gray-900 dark:text-gray-100">
+      <Sidebar />
+      <div className="flex-1 flex flex-col min-w-0">
+        <Navbar user={session.user} />
+        <main className="flex-1 overflow-y-auto p-4 md:p-8">
+          <div className="mx-auto max-w-6xl w-full">
             {children}
           </div>
         </main>

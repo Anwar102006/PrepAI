@@ -1,117 +1,77 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-  LayoutDashboard,
-  MessageSquare,
-  FileText,
-  Code,
-  BarChart3,
-  Settings,
-  Sparkles,
-  ChevronLeft,
-  ChevronRight,
-  LogOut,
-  Crown,
-} from 'lucide-react';
+import { LayoutDashboard, Mic, FileText, Code, Settings, History, BarChart2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 const navItems = [
-  { title: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { title: 'Interviews', href: '/dashboard/interviews', icon: MessageSquare },
-  { title: 'Resume', href: '/dashboard/resume', icon: FileText },
-  { title: 'Coding', href: '/dashboard/coding', icon: Code },
-  { title: 'Analytics', href: '/dashboard/analytics', icon: BarChart3 },
-  { title: 'Settings', href: '/dashboard/settings', icon: Settings },
+  { name: 'Overview', href: '/dashboard', icon: LayoutDashboard },
+  { name: 'Mock Interviews', href: '/dashboard/interviews', icon: Mic },
+  { name: 'Resume Analyzer', href: '/dashboard/resume', icon: FileText },
+  { name: 'Coding Practice', href: '/dashboard/coding', icon: Code },
+  { name: 'History', href: '/dashboard/history', icon: History },
+  { name: 'Analytics', href: '/dashboard/analytics', icon: BarChart2 },
+  { name: 'Settings', href: '/dashboard/settings', icon: Settings },
 ];
 
-export function Sidebar() {
+export default function Sidebar() {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <aside
-      className={cn(
-        'hidden lg:flex flex-col border-r border-white/5 bg-surface-50/50 transition-all duration-300',
-        collapsed ? 'w-[72px]' : 'w-64'
-      )}
-    >
-      {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 border-b border-white/5 px-4">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-violet">
-          <Sparkles className="h-5 w-5 text-white" />
-        </div>
-        {!collapsed && (
-          <span className="text-lg font-bold tracking-tight">
-            Prep<span className="gradient-text">AI</span>
-          </span>
-        )}
+    <div className="hidden md:flex flex-col w-64 h-screen border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-[#0d0e14] sticky top-0">
+      <div className="p-6">
+        <Link href="/dashboard" className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-xl">P</span>
+          </div>
+          <span className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">PrepAI</span>
+        </Link>
       </div>
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-1 p-3">
+      <div className="flex-1 px-4 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-
+          const isActive = pathname === item.href;
           return (
             <Link
-              key={item.href}
+              key={item.name}
               href={item.href}
               className={cn(
-                'group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
+                'relative flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors group',
                 isActive
-                  ? 'bg-brand-500/10 text-brand-400'
-                  : 'text-white/50 hover:bg-white/5 hover:text-white/80'
+                  ? 'text-gray-900 dark:text-white'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-800/50'
               )}
             >
-              <Icon
+              {isActive && (
+                <motion.div
+                  layoutId="sidebar-active"
+                  className="absolute inset-0 bg-gray-100 dark:bg-gray-800/80 rounded-lg -z-10"
+                  transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+                />
+              )}
+              <item.icon
                 className={cn(
-                  'h-5 w-5 shrink-0 transition-colors',
-                  isActive ? 'text-brand-400' : 'text-white/40 group-hover:text-white/60'
+                  'w-5 h-5 mr-3 flex-shrink-0 transition-colors',
+                  isActive ? 'text-blue-600 dark:text-blue-500' : 'text-gray-400 group-hover:text-gray-500 dark:group-hover:text-gray-300'
                 )}
               />
-              {!collapsed && <span>{item.title}</span>}
+              {item.name}
             </Link>
           );
         })}
-      </nav>
-
-      {/* Upgrade Card */}
-      {!collapsed && (
-        <div className="mx-3 mb-3 rounded-xl border border-brand-500/20 bg-gradient-to-br from-brand-500/10 to-accent-violet/5 p-4">
-          <div className="flex items-center gap-2">
-            <Crown className="h-4 w-4 text-brand-400" />
-            <span className="text-xs font-semibold text-brand-300">Upgrade to Pro</span>
-          </div>
-          <p className="mt-1.5 text-xs text-white/40">Unlock unlimited interviews & advanced features.</p>
-          <Link
-            href="/dashboard/settings"
-            className="mt-3 flex w-full items-center justify-center rounded-lg bg-brand-500/20 py-1.5 text-xs font-medium text-brand-300 transition-colors hover:bg-brand-500/30"
-          >
-            Upgrade
-          </Link>
-        </div>
-      )}
-
-      {/* Collapse Toggle + Logout */}
-      <div className="border-t border-white/5 p-3">
-        <button
-          onClick={() => setCollapsed(!collapsed)}
-          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-white/40 transition-colors hover:bg-white/5 hover:text-white/60"
-        >
-          {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-          {!collapsed && <span>Collapse</span>}
-        </button>
-        <button
-          className="mt-1 flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-white/40 transition-colors hover:bg-red-500/10 hover:text-red-400"
-        >
-          <LogOut className="h-4 w-4" />
-          {!collapsed && <span>Log out</span>}
-        </button>
       </div>
-    </aside>
+
+      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
+        <div className="px-3 py-2 text-xs font-medium text-gray-500 dark:text-gray-400">
+          Plan: <span className="text-gray-900 dark:text-white font-semibold">Free</span>
+          <div className="mt-2 h-1.5 w-full bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-full bg-blue-600 w-1/3 rounded-full" />
+          </div>
+          <p className="mt-1">3 / 10 Mock Interviews</p>
+        </div>
+      </div>
+    </div>
   );
 }

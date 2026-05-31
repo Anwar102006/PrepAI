@@ -90,7 +90,7 @@ export const createCodingChallengeSchema = z.object({
   difficulty: z.enum(['EASY', 'MEDIUM', 'HARD', 'EXPERT']),
   category: z.string().min(1),
   tags: z.array(z.string()),
-  starterCode: z.record(z.string()),
+  starterCode: z.record(z.string(), z.string()),
   solution: z.string().optional(),
   hints: z.array(z.string()),
   timeLimit: z.number().min(5).max(120).default(30),
