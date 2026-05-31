@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .docker/Dockerfile.dev
+    container_name: prepai-app
+    ports:
+      - '3000:3000'
+    volumes:
+      - ../src:/app/src
+      - ../public:/app/public
+      - ../prisma:/app/prisma
+    env_file:
+      - ../.env.local
+    environment:
+      - DATABASE_URL=postgresql://prepai:prepai_secret@db:5432/prepai?schema=public
+      - REDIS_URL=redis://redis:6379
+      - MINIO_ENDPOINT=http://minio:9000
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - prepai-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: prepai-db
+    environment:
+      POSTGRES_USER: prepai
+      POSTGRES_PASSWORD: prepai_secret
+      POSTGRES_DB: prepai
+    ports:
+      - '5432:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U prepai']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prepai-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: prepai-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - prepai-network
+
+  minio:
+    image: minio/minio:latest
+    container_name: prepai-minio
+    command: server /data --console-address ':9001'
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - miniodata:/data
+    networks:
+      - prepai-network
+
+volumes:
+  pgdata:
+  redisdata:
+  miniodata:
+
+networks:
+  prepai-network:
+    driver: bridge
