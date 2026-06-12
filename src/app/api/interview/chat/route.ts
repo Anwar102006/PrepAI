@@ -3,9 +3,20 @@ import { streamText } from 'ai';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 import { INTERVIEW_SYSTEM_PROMPT } from '@/lib/prompts/interview';
+import { rateLimit } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    if (rateLimit) {
+      const { success } = await rateLimit.limit(ip);
+      if (!success) {
+        logger.warn('Rate limit exceeded for interview chat', { ip });
+        return new Response('Too Many Requests', { status: 429 });
+      }
+    }
+
     const session = await auth();
     if (!session?.user?.id) {
       return new Response('Unauthorized', { status: 401 });
@@ -57,7 +68,7 @@ export async function POST(req: Request) {
 
     return result.toTextStreamResponse();
   } catch (error) {
-    console.error('Chat error:', error);
+    logger.error('Chat error', { error: error instanceof Error ? error.message : 'Unknown' });
     return new Response('Internal Server Error', { status: 500 });
   }
 }

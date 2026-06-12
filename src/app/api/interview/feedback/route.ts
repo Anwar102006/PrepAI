@@ -4,9 +4,20 @@ import { generateText } from 'ai';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/auth';
 import { FEEDBACK_SYSTEM_PROMPT } from '@/lib/prompts/interview';
+import { rateLimit } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    if (rateLimit) {
+      const { success } = await rateLimit.limit(ip);
+      if (!success) {
+        logger.warn('Rate limit exceeded for interview feedback', { ip });
+        return new NextResponse('Too Many Requests', { status: 429 });
+      }
+    }
+
     const session = await auth();
     if (!session?.user?.id) {
       return new NextResponse('Unauthorized', { status: 401 });
@@ -50,7 +61,7 @@ export async function POST(req: Request) {
     try {
       feedbackData = JSON.parse(jsonString);
     } catch {
-      console.error('Failed to parse AI JSON feedback:', jsonString);
+      logger.error('Failed to parse AI JSON feedback', { rawOutput: jsonString });
       return new NextResponse('Failed to generate valid feedback format', { status: 500 });
     }
 
@@ -93,7 +104,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(updatedSession);
   } catch (error) {
-    console.error('Feedback generation error:', error);
+    logger.error('Feedback generation error', { error: error instanceof Error ? error.message : 'Unknown' });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }
