@@ -1,37 +1,70 @@
-import { auth, signOut } from '@/auth';
-import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
+import StatCard from '@/components/dashboard/StatCard';
+import SkillChart from '@/components/dashboard/SkillChart';
+import RecentInterviews from '@/components/dashboard/RecentInterviews';
+import { Target, Trophy, Clock, BrainCircuit } from 'lucide-react';
 
 export default async function DashboardPage() {
   const session = await auth();
-
-  if (!session) {
-    redirect('/login');
-  }
-
+  
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-8">
-      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 rounded-xl shadow-lg p-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
-        
-        <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Welcome, {session.user?.name || session.user?.email}</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Your role: <span className="font-mono bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">{(session.user as any)?.role || 'USER'}</span></p>
+    <div className="space-y-6">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
+            Welcome back, {session?.user?.name?.split(' ')[0] || 'User'}
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Here's your interview preparation progress.</p>
         </div>
+        
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-sm flex items-center justify-center gap-2">
+          <BrainCircuit className="w-4 h-4" />
+          Start New Interview
+        </button>
+      </div>
 
-        <form
-          action={async () => {
-            'use server';
-            await signOut({ redirectTo: '/login' });
-          }}
-          className="mt-8"
-        >
-          <button
-            type="submit"
-            className="px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors font-medium"
-          >
-            Sign out
-          </button>
-        </form>
+      {/* Analytics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <StatCard
+          title="Total Interviews"
+          value="12"
+          trend="2 this week"
+          trendUp={true}
+          icon={Target}
+          delay={0.1}
+        />
+        <StatCard
+          title="Average Score"
+          value="82%"
+          trend="4.2% increase"
+          trendUp={true}
+          icon={Trophy}
+          delay={0.2}
+        />
+        <StatCard
+          title="Practice Time"
+          value="18h"
+          trend="1.5h this week"
+          trendUp={true}
+          icon={Clock}
+          delay={0.3}
+        />
+        <StatCard
+          title="Skills Mastered"
+          value="5"
+          icon={BrainCircuit}
+          delay={0.4}
+        />
+      </div>
+
+      {/* Charts & Tables Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <RecentInterviews />
+        </div>
+        <div className="lg:col-span-1">
+          <SkillChart />
+        </div>
       </div>
     </div>
   );
