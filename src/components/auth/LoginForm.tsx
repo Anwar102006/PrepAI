@@ -32,7 +32,7 @@ export default function LoginForm() {
         router.push('/dashboard');
         router.refresh();
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setIsLoading(false);
@@ -112,7 +112,7 @@ export default function LoginForm() {
       </button>
 
       <p className="text-sm text-center text-gray-600 dark:text-gray-400">
-        Don't have an account?{' '}
+        Don&apos;t have an account?{' '}
         <Link href="/register" className="text-blue-600 hover:underline dark:text-blue-400 font-medium">
           Sign up
         </Link>

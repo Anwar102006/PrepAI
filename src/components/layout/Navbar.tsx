@@ -1,9 +1,11 @@
 'use client';
 
-import { Bell, Menu, Search, User as UserIcon } from 'lucide-react';
+import { Bell, Menu, Search } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
-export default function Navbar({ user }: { user: any }) {
+import { Session } from 'next-auth';
+
+export default function Navbar({ user }: { user: Session['user'] }) {
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between h-16 px-4 md:px-8 border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-[#0d0e14]/80 backdrop-blur-md">
       <div className="flex items-center md:hidden">
@@ -34,6 +36,7 @@ export default function Navbar({ user }: { user: any }) {
         <div className="relative group">
           <button className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 ring-2 ring-white dark:ring-[#0d0e14] overflow-hidden focus:outline-none">
             {user?.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
               <img src={user.image} alt="User avatar" className="w-full h-full object-cover" />
             ) : (
               <span className="text-sm font-medium text-white">

@@ -35,7 +35,7 @@ async function main() {
     create: { name: 'React' },
   });
 
-  const skillNode = await prisma.skill.upsert({
+  await prisma.skill.upsert({
     where: { name: 'Node.js' },
     update: {},
     create: { name: 'Node.js' },
@@ -58,7 +58,7 @@ async function main() {
   });
 
   // Create Interview
-  const interview = await prisma.interview.create({
+  await prisma.interview.create({
     data: {
       userId: user1.id,
       title: 'Senior Frontend Engineer Interview',
@@ -92,7 +92,7 @@ async function main() {
   });
 
   // Create Mock Session
-  const mockSession = await prisma.mockSession.create({
+  await prisma.mockSession.create({
     data: {
       userId: user1.id,
       status: 'COMPLETED',
@@ -117,7 +117,7 @@ async function main() {
   });
 
   // Create Resume Analysis
-  const resume = await prisma.resumeAnalysis.create({
+  await prisma.resumeAnalysis.create({
     data: {
       userId: user1.id,
       resumeUrl: 'https://example.com/resume.pdf',

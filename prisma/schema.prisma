@@ -134,14 +134,28 @@ model UserSkill {
 }
 
 model MockSession {
-  id        String   @id @default(cuid())
-  userId    String
-  status    String   @default("IN_PROGRESS")
-  score     Float?
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  userId      String
+  type        String   @default("BEHAVIORAL") // TECHNICAL, HR, BEHAVIORAL
+  difficulty  String   @default("MEDIUM")     // EASY, MEDIUM, HARD, EXPERT
+  status      String   @default("IN_PROGRESS")
+  score       Float?
+  feedback    String?  @db.Text
+  createdAt   DateTime @default(now())
 
-  user      User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  questions MockSessionQuestion[]
+  user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions   MockSessionQuestion[]
+  messages    MockSessionMessage[]
+}
+
+model MockSessionMessage {
+  id            String   @id @default(cuid())
+  mockSessionId String
+  role          String   // user, assistant, system
+  content       String   @db.Text
+  createdAt     DateTime @default(now())
+
+  mockSession   MockSession @relation(fields: [mockSessionId], references: [id], onDelete: Cascade)
 }
 
 model MockSessionQuestion {
