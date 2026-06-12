@@ -1,5 +1,11 @@
 # PrepAI: The Ultimate AI Mock Interview & Preparation Platform 🚀
 
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+
 ![PrepAI Banner](https://via.placeholder.com/1200x400/0a0a0f/3b82f6?text=PrepAI:+Master+Your+Next+Interview)
 
 ## 📌 Overview
@@ -17,10 +23,19 @@ Job interviews are stressful, and candidates often lack access to personalized, 
 - **🛡️ Admin Panel**: A dedicated, role-based admin panel to monitor platform usage, manage users, and view real-time system metrics.
 
 ## 📸 Screenshots
-*(Add your project screenshots here)*
-- `[/public/screenshots/dashboard.png]` - Analytics Dashboard
-- `[/public/screenshots/resume.png]` - AI Resume Analyzer
-- `[/public/screenshots/coding.png]` - Coding Interview Environment
+
+<details>
+<summary>Click to view Screenshots</summary>
+
+### Analytics Dashboard
+![Dashboard Screenshot](https://via.placeholder.com/800x450/0a0a0f/3b82f6?text=Dashboard+View)
+
+### AI Resume Analyzer
+![Resume Analyzer Screenshot](https://via.placeholder.com/800x450/0a0a0f/3b82f6?text=Resume+Analysis+Results)
+
+### Coding Interview Sandbox
+![Coding Sandbox Screenshot](https://via.placeholder.com/800x450/0a0a0f/3b82f6?text=Coding+Environment+with+AI+Review)
+</details>
 
 ## 🏗️ Architecture Overview
 PrepAI is built on a modern, decoupled monolithic architecture using **Next.js 16 (App Router)**.
