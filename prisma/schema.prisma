@@ -23,7 +23,8 @@ model User {
   mockSessions   MockSession[]
   resumeAnalyses ResumeAnalysis[]
   progress       UserProgress?
-  skills         UserSkill[]
+  skills          UserSkill[]
+  codeSubmissions CodeSubmission[]
 }
 
 model Account {
@@ -170,4 +171,18 @@ model MockSessionQuestion {
   question    Question    @relation(fields: [questionId], references: [id], onDelete: Cascade)
 
   @@unique([mockSessionId, questionId])
+}
+
+model CodeSubmission {
+  id          String   @id @default(cuid())
+  userId      String
+  language    String
+  code        String   @db.Text
+  output      String?  @db.Text
+  error       String?  @db.Text
+  aiFeedback  String?  @db.Text
+  score       Float?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
