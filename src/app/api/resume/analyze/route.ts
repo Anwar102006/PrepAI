@@ -6,9 +6,20 @@ import pdfParse from 'pdf-parse';
 import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { RESUME_ANALYZER_PROMPT } from '@/lib/prompts/resume';
+import { rateLimit } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    if (rateLimit) {
+      const { success } = await rateLimit.limit(ip);
+      if (!success) {
+        logger.warn('Rate limit exceeded for resume analysis', { ip });
+        return new NextResponse('Too Many Requests', { status: 429 });
+      }
+    }
+
     const session = await auth();
     if (!session?.user?.id) {
       return new NextResponse('Unauthorized', { status: 401 });
@@ -33,9 +44,17 @@ export async function POST(req: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Extract text from PDF
-    const pdfData = await pdfParse(buffer);
-    const resumeText = pdfData.text;
+    // 2. Extract text from PDF buffer
+    let pdfText = '';
+    try {
+      const parsed = await pdfParse(buffer);
+      pdfText = parsed.text;
+    } catch (err) {
+      logger.error('Failed to parse PDF', { error: err instanceof Error ? err.message : 'Unknown' });
+      return new NextResponse('Failed to parse PDF file. Please ensure it is a valid text-based PDF.', { status: 400 });
+    }
+
+    const resumeText = pdfText;
 
     if (!resumeText || resumeText.trim().length < 50) {
       return new NextResponse('Could not extract sufficient text from the PDF', { status: 400 });
@@ -60,7 +79,7 @@ export async function POST(req: Request) {
     try {
       analysisData = JSON.parse(jsonString);
     } catch {
-      console.error('Failed to parse Resume JSON feedback:', jsonString);
+      logger.error('Failed to parse Resume JSON feedback', { rawOutput: jsonString });
       return new NextResponse('Failed to generate valid analysis format', { status: 500 });
     }
 
@@ -76,7 +95,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(analysis);
   } catch (error) {
-    console.error('Resume analysis error:', error);
+    logger.error('Resume Analysis Error', { error: error instanceof Error ? error.message : 'Unknown' });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

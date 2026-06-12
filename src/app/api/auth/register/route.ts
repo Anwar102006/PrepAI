@@ -1,9 +1,21 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { prisma } from '@/lib/prisma';
+import { authRateLimit } from '@/lib/rate-limit';
+import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
   try {
+    // 1. Rate Limiting
+    if (authRateLimit) {
+      const ip = req.headers.get('x-forwarded-for') ?? '127.0.0.1';
+      const { success } = await authRateLimit.limit(ip);
+      if (!success) {
+        logger.warn('Rate limit exceeded for registration', { ip });
+        return new NextResponse('Too Many Requests', { status: 429 });
+      }
+    }
+
     const { email, password, name } = await req.json();
 
     if (!email || !password) {
@@ -39,7 +51,7 @@ export async function POST(req: Request) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Registration error:', error);
+    logger.error('Registration error', { error: error instanceof Error ? error.message : 'Unknown error' });
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 }
