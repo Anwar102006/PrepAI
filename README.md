@@ -1,125 +1,80 @@
-# PrepAI — AI-Powered Interview Preparation Platform
+# PrepAI: The Ultimate AI Mock Interview & Preparation Platform 🚀
 
-<div align="center">
+![PrepAI Banner](https://via.placeholder.com/1200x400/0a0a0f/3b82f6?text=PrepAI:+Master+Your+Next+Interview)
 
-![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=for-the-badge&logo=postgresql)
-![Prisma](https://img.shields.io/badge/Prisma-6-2D3748?style=for-the-badge&logo=prisma)
-![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=for-the-badge&logo=docker)
+## 📌 Overview
+**PrepAI** is a comprehensive, production-ready AI-powered platform designed to help job seekers, students, and professionals master their technical and behavioral interviews. By leveraging advanced Large Language Models (OpenAI GPT-4o), PrepAI provides real-time mock interviews, instant resume analysis, and a fully functional multi-language coding execution environment.
 
-**Master your next interview with AI-powered mock interviews, resume analysis, and coding challenges.**
+## ❓ Problem Statement
+Job interviews are stressful, and candidates often lack access to personalized, high-quality feedback. Traditional mock interviews require coordinating with peers or hiring expensive coaches. Furthermore, Applicant Tracking Systems (ATS) reject thousands of highly qualified candidates simply due to poor resume formatting or keyword gaps. 
+**PrepAI solves this by providing instant, AI-driven, and hyper-personalized feedback for both resumes and live interviews.**
 
-</div>
+## ✨ Key Features
+- **🤖 AI Mock Interviews**: Real-time behavioral, HR, and technical interviews simulated by an AI persona that asks dynamic questions and grades responses.
+- **📄 AI Resume Analyzer**: Instantly parse PDF resumes directly in the browser to receive an ATS score, formatting checks, and missing keyword identification.
+- **💻 Coding Sandbox**: A fully integrated Monaco Editor with a secure execution backend (Piston API) supporting Python, JavaScript, Java, and C++. Includes AI-powered Time/Space complexity analysis and code refactoring suggestions.
+- **📊 Interactive Dashboard**: A highly responsive, visually stunning analytics dashboard (built with Recharts and Framer Motion) to track progress over time.
+- **🛡️ Admin Panel**: A dedicated, role-based admin panel to monitor platform usage, manage users, and view real-time system metrics.
 
----
+## 📸 Screenshots
+*(Add your project screenshots here)*
+- `[/public/screenshots/dashboard.png]` - Analytics Dashboard
+- `[/public/screenshots/resume.png]` - AI Resume Analyzer
+- `[/public/screenshots/coding.png]` - Coding Interview Environment
 
-## ✨ Features
+## 🏗️ Architecture Overview
+PrepAI is built on a modern, decoupled monolithic architecture using **Next.js 16 (App Router)**.
+- **Frontend**: React 19, TailwindCSS, Framer Motion, Recharts.
+- **Backend API**: Next.js Edge & Node Runtimes, heavily protected by Upstash Redis Rate Limiting.
+- **Database**: PostgreSQL managed by Prisma ORM.
+- **Authentication**: NextAuth.js v5 providing credential and OAuth flows.
+- **AI Engine**: Vercel AI SDK communicating with OpenAI (`gpt-4o`).
 
-- 🎤 **AI Mock Interviews** — Realistic interview simulations with GPT-4o
-- 📄 **Resume Analyzer** — ATS scoring, content quality, and improvement suggestions
-- 💻 **Coding Challenges** — LeetCode-style problems with sandboxed execution
-- 📊 **AI Feedback** — Detailed performance analysis with action items
-- 📈 **Analytics Dashboard** — Track progress with charts and heatmaps
-- 🛡️ **Admin Panel** — Manage users, questions, and platform settings
+## 🛠️ Tech Stack
+| Category | Technologies |
+|----------|--------------|
+| **Frontend** | Next.js (App Router), React, TailwindCSS, Lucide Icons, Framer Motion |
+| **Backend** | Next.js Route Handlers, Node.js, `pdf-parse` |
+| **Database** | PostgreSQL, Prisma ORM |
+| **Authentication** | NextAuth.js (v5) / Auth.js |
+| **AI / Execution** | OpenAI (`gpt-4o`), Vercel AI SDK, Piston API |
+| **Infrastructure** | Vercel (Hosting), Upstash (Redis), Docker |
 
-## 🏗️ Tech Stack
+## 📂 Folder Structure
+\`\`\`text
+prepai/
+├── prisma/               # Database schema and migrations
+├── src/
+│   ├── app/              # Next.js App Router (Pages, Layouts, APIs)
+│   │   ├── admin/        # Admin Dashboard Routes
+│   │   ├── api/          # Backend REST Endpoints
+│   │   ├── dashboard/    # User Dashboard Routes
+│   │   └── (auth)/       # Public/Authentication Routes
+│   ├── components/       # Reusable UI components
+│   ├── lib/              # Utilities (Prisma client, Logger, Prompts)
+│   └── proxy.ts          # Edge Middleware (Auth & Routing)
+├── public/               # Static assets
+└── next.config.ts        # Next.js configuration & security headers
+\`\`\`
 
-| Layer | Technology |
-|-------|------------|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript 5 (strict) |
-| Styling | Tailwind CSS 4 |
-| Database | PostgreSQL 16 |
-| ORM | Prisma 6 |
-| Auth | NextAuth.js v5 |
-| AI | OpenAI GPT-4o |
-| Cache | Redis 7 |
-| Storage | S3 / MinIO |
-| Container | Docker Compose |
+## 🚀 Quick Start
+Please refer to [INSTALLATION.md](./INSTALLATION.md) for detailed local setup instructions.
 
-## 🚀 Getting Started
+## 🔐 Environment Variables
+PrepAI requires several API keys (Database, NextAuth, OpenAI, Upstash Redis). 
+Please see `.env.production.example` for the full required configuration list.
 
-### Prerequisites
+## 📖 Usage Guide
+1. **Register/Login**: Create a new account.
+2. **Dashboard**: View your overall metrics.
+3. **Resume Analyzer**: Navigate to the Resume tab, upload a PDF, and review the AI-generated ATS action plan.
+4. **Mock Interview**: Start a new behavioral session, answer the questions, and receive your final grade and feedback report.
+5. **Coding Practice**: Select a language, write your algorithm, hit 'Run & Analyze', and review the console output alongside the AI's Space/Time complexity grade.
 
-- Node.js 20+
-- Docker & Docker Compose
-- npm 10+
+## 🌍 Deployment
+PrepAI is fully optimized for Docker and Vercel deployments. See [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md).
 
-### Quick Start
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/your-org/prepai.git
-cd prepai
-
-# 2. Copy environment variables
-cp .env.example .env.local
-
-# 3. Start infrastructure (PostgreSQL, Redis, MinIO)
-docker compose -f .docker/docker-compose.yml up -d db redis minio
-
-# 4. Install dependencies
-npm install
-
-# 5. Generate Prisma client & run migrations
-npx prisma generate
-npx prisma db push
-
-# 6. Seed the database
-npx prisma db seed
-
-# 7. Start development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see the app.
-
-### Docker (Full Stack)
-
-```bash
-# Start everything (app + PostgreSQL + Redis + MinIO)
-docker compose -f .docker/docker-compose.yml up --build
-```
-
-## 📁 Project Structure
-
-```
-src/
-├── app/              # Next.js App Router (pages & API routes)
-│   ├── (auth)/       # Auth pages (login, register)
-│   ├── (dashboard)/  # Authenticated pages
-│   ├── (admin)/      # Admin panel
-│   └── api/          # REST API endpoints
-├── components/       # React components
-│   ├── ui/           # Design system primitives
-│   ├── layout/       # Layout components
-│   └── shared/       # Cross-cutting components
-├── lib/              # Core libraries & utilities
-├── services/         # Business logic layer
-├── hooks/            # Custom React hooks
-├── stores/           # Client state (Zustand)
-├── types/            # TypeScript type definitions
-├── prompts/          # AI prompt templates
-└── config/           # App configuration
-```
-
-## 📜 Scripts
-
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format with Prettier |
-| `npm run db:push` | Push schema to database |
-| `npm run db:seed` | Seed the database |
-| `npm run db:studio` | Open Prisma Studio |
-| `npm run test` | Run unit tests |
-| `npm run test:e2e` | Run E2E tests |
-
-## 📄 License
-
-MIT
+## 🔮 Future Scope
+- **WebRTC Video Interviews**: Integrating WebRTC and AI voice-to-text models for real-time verbal interview simulations.
+- **Real-time Streaming**: Utilizing Vercel AI SDK's `streamText` to deliver character-by-character feedback instantly.
+- **S3 Bucket Integration**: Persisting user resumes to AWS S3 for historical tracking.
