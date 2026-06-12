@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
-// @ts-expect-error: pdf-parse does not have default export types
-import pdfParse from 'pdf-parse';
+// pdf-parse is required dynamically inside the route handler to avoid SSR issues
 import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { RESUME_ANALYZER_PROMPT } from '@/lib/prompts/resume';
@@ -47,6 +46,8 @@ export async function POST(req: Request) {
     // 2. Extract text from PDF buffer
     let pdfText = '';
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
+      const pdfParse = require('pdf-parse');
       const parsed = await pdfParse(buffer);
       pdfText = parsed.text;
     } catch (err) {
