@@ -30,7 +30,7 @@ export default async function DashboardPage() {
           value="12"
           trend="2 this week"
           trendUp={true}
-          icon={Target}
+          icon={<Target />}
           delay={0.1}
         />
         <StatCard
@@ -38,7 +38,7 @@ export default async function DashboardPage() {
           value="82%"
           trend="4.2% increase"
           trendUp={true}
-          icon={Trophy}
+          icon={<Trophy />}
           delay={0.2}
         />
         <StatCard
@@ -46,13 +46,13 @@ export default async function DashboardPage() {
           value="18h"
           trend="1.5h this week"
           trendUp={true}
-          icon={Clock}
+          icon={<Clock />}
           delay={0.3}
         />
         <StatCard
           title="Skills Mastered"
           value="5"
-          icon={BrainCircuit}
+          icon={<BrainCircuit />}
           delay={0.4}
         />
       </div>

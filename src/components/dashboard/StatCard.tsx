@@ -8,11 +8,11 @@ interface StatCardProps {
   value: string | number;
   trend?: string;
   trendUp?: boolean;
-  icon: LucideIcon;
+  icon: React.ReactNode;
   delay?: number;
 }
 
-export default function StatCard({ title, value, trend, trendUp, icon: Icon, delay = 0 }: StatCardProps) {
+export default function StatCard({ title, value, trend, trendUp, icon, delay = 0 }: StatCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -20,14 +20,14 @@ export default function StatCard({ title, value, trend, trendUp, icon: Icon, del
       transition={{ duration: 0.4, delay, ease: [0.23, 1, 0.32, 1] }}
       className="p-5 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group"
     >
-      <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform duration-500">
-        <Icon className="w-24 h-24" />
+      <div className="absolute top-0 right-0 p-4 opacity-5 dark:opacity-10 group-hover:scale-110 transition-transform duration-500 [&>svg]:w-24 [&>svg]:h-24">
+        {icon}
       </div>
       
       <div className="relative z-10 flex items-center justify-between">
         <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</h3>
-        <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <Icon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+        <div className="p-2 bg-gray-50 dark:bg-gray-800 rounded-lg [&>svg]:w-5 [&>svg]:h-5 [&>svg]:text-gray-700 dark:[&>svg]:text-gray-300">
+          {icon}
         </div>
       </div>
       
