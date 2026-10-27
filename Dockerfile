@@ -19,7 +19,10 @@ COPY . .
 
 # Environment variables must be present at build time
 # Disable telemetry during the build.
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="mongodb://127.0.0.1:27018/prepai?replicaSet=rs0&directConnection=true"
+ENV NEXTAUTH_SECRET="docker-build-super-secret-key-32chars"
+ENV NEXTAUTH_URL="http://localhost:3000"
 
 # Generate Prisma Client
 RUN npx prisma generate

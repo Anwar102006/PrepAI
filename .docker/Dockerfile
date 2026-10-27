@@ -4,7 +4,7 @@ RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci --omit=dev
+RUN npm ci
 
 # ── Stage 2: Builder ──
 FROM node:20-alpine AS builder
@@ -13,6 +13,11 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV DATABASE_URL="mongodb://127.0.0.1:27018/prepai?replicaSet=rs0&directConnection=true"
+ENV NEXTAUTH_SECRET="docker-build-super-secret-key-32chars"
+ENV NEXTAUTH_URL="http://localhost:3000"
 
 RUN npx prisma generate
 RUN npm run build
