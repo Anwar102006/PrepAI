@@ -80,9 +80,9 @@ export default function LandingPage() {
     <div className="relative min-h-screen overflow-hidden">
       {/* Background Effects */}
       <div className="pointer-events-none fixed inset-0">
-        <div className="absolute left-1/4 top-0 h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-brand-600/10 blur-[120px]" />
-        <div className="absolute right-1/4 top-1/3 h-[500px] w-[500px] rounded-full bg-accent-violet/8 blur-[100px]" />
-        <div className="absolute bottom-0 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full bg-accent-cyan/5 blur-[100px]" />
+        <div className="bg-brand-600/10 absolute top-0 left-1/4 h-[600px] w-[600px] -translate-x-1/2 rounded-full blur-[120px]" />
+        <div className="bg-accent-violet/8 absolute top-1/3 right-1/4 h-[500px] w-[500px] rounded-full blur-[100px]" />
+        <div className="bg-accent-cyan/5 absolute bottom-0 left-1/2 h-[400px] w-[800px] -translate-x-1/2 rounded-full blur-[100px]" />
         <div className="dot-pattern absolute inset-0 opacity-40" />
       </div>
 
@@ -90,7 +90,7 @@ export default function LandingPage() {
       <nav className="glass-strong sticky top-0 z-50 border-b border-white/5">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-violet">
+            <div className="from-brand-500 to-accent-violet flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <span className="text-xl font-bold tracking-tight">
@@ -122,7 +122,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/register"
-              className="group relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition-all hover:shadow-xl hover:shadow-brand-500/30"
+              className="group from-brand-500 to-brand-600 shadow-brand-500/25 hover:shadow-brand-500/30 relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r px-5 py-2.5 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl"
             >
               Get Started
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -132,32 +132,32 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative mx-auto max-w-7xl px-6 pb-20 pt-24 md:pt-32">
+      <section className="relative mx-auto max-w-7xl px-6 pt-24 pb-20 md:pt-32">
         <div className="mx-auto max-w-4xl text-center">
           {/* Badge */}
-          <div className="mb-8 inline-flex animate-fade-in items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-1.5 text-sm text-brand-300">
+          <div className="animate-fade-in border-brand-500/20 bg-brand-500/10 text-brand-300 mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm">
             <Star className="h-3.5 w-3.5" />
             <span>AI-Powered Interview Preparation</span>
           </div>
 
           {/* Headline */}
-          <h1 className="animate-slide-up text-5xl font-extrabold leading-[1.1] tracking-tight md:text-7xl">
+          <h1 className="animate-slide-up text-5xl leading-[1.1] font-extrabold tracking-tight md:text-7xl">
             Master Your Next
             <br />
             <span className="gradient-text">Interview</span> with AI
           </h1>
 
           {/* Subheading */}
-          <p className="mx-auto mt-6 max-w-2xl animate-slide-up text-lg leading-relaxed text-white/50 [animation-delay:100ms] md:text-xl">
+          <p className="animate-slide-up mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/50 [animation-delay:100ms] md:text-xl">
             Practice with AI interviewers, get your resume scored, solve coding challenges, and
             receive detailed feedback — all in one platform.
           </p>
 
           {/* CTAs */}
-          <div className="mt-10 flex animate-slide-up flex-col items-center gap-4 [animation-delay:200ms] sm:flex-row sm:justify-center">
+          <div className="animate-slide-up mt-10 flex flex-col items-center gap-4 [animation-delay:200ms] sm:flex-row sm:justify-center">
             <Link
               href="/register"
-              className="group relative inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-brand-500/25 transition-all hover:shadow-brand-500/40"
+              className="group from-brand-500 to-brand-600 shadow-brand-500/25 hover:shadow-brand-500/40 relative inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r px-8 py-4 text-base font-semibold text-white shadow-2xl transition-all"
             >
               Start Practicing Free
               <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -173,10 +173,10 @@ export default function LandingPage() {
         </div>
 
         {/* Stats */}
-        <div className="mx-auto mt-20 grid max-w-3xl animate-fade-in grid-cols-2 gap-6 [animation-delay:400ms] md:grid-cols-4">
+        <div className="animate-fade-in mx-auto mt-20 grid max-w-3xl grid-cols-2 gap-6 [animation-delay:400ms] md:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
-              <div className="text-3xl font-bold gradient-text">{stat.value}</div>
+              <div className="gradient-text text-3xl font-bold">{stat.value}</div>
               <div className="mt-1 text-sm text-white/40">{stat.label}</div>
             </div>
           ))}
@@ -187,11 +187,11 @@ export default function LandingPage() {
       <section id="features" className="relative mx-auto max-w-7xl px-6 py-24">
         <div className="mb-16 text-center">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-            Everything You Need to{' '}
-            <span className="gradient-text">Ace Your Interview</span>
+            Everything You Need to <span className="gradient-text">Ace Your Interview</span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/50">
-            A comprehensive suite of AI-powered tools designed to prepare you for any interview scenario.
+            A comprehensive suite of AI-powered tools designed to prepare you for any interview
+            scenario.
           </p>
         </div>
 
@@ -201,10 +201,12 @@ export default function LandingPage() {
             return (
               <div
                 key={feature.title}
-                className="group relative rounded-2xl border border-white/5 bg-surface-50/50 p-8 transition-all duration-300 hover:border-white/10 hover:bg-surface-50"
+                className="group bg-surface-50/50 hover:bg-surface-50 relative rounded-2xl border border-white/5 p-8 transition-all duration-300 hover:border-white/10"
               >
                 {/* Hover gradient */}
-                <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-5`} />
+                <div
+                  className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 blur-xl transition-opacity duration-500 group-hover:opacity-5`}
+                />
 
                 <div
                   className={`mb-5 inline-flex rounded-xl bg-gradient-to-br ${feature.gradient} p-3 shadow-lg`}
@@ -222,8 +224,8 @@ export default function LandingPage() {
 
       {/* CTA Section */}
       <section className="relative mx-auto max-w-7xl px-6 py-24">
-        <div className="relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br from-brand-950 to-surface-50 p-12 text-center md:p-20">
-          <div className="absolute inset-0 dot-pattern opacity-20" />
+        <div className="from-brand-950 to-surface-50 relative overflow-hidden rounded-3xl border border-white/5 bg-gradient-to-br p-12 text-center md:p-20">
+          <div className="dot-pattern absolute inset-0 opacity-20" />
           <div className="relative">
             <h2 className="text-3xl font-bold md:text-4xl">
               Ready to <span className="gradient-text">Transform</span> Your Interview Prep?
@@ -233,7 +235,7 @@ export default function LandingPage() {
             </p>
             <Link
               href="/register"
-              className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-500 to-brand-600 px-8 py-4 text-base font-semibold text-white shadow-2xl shadow-brand-500/25 transition-all hover:shadow-brand-500/40"
+              className="from-brand-500 to-brand-600 shadow-brand-500/25 hover:shadow-brand-500/40 mt-8 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r px-8 py-4 text-base font-semibold text-white shadow-2xl transition-all"
             >
               Get Started for Free
               <ArrowRight className="h-5 w-5" />
@@ -246,7 +248,7 @@ export default function LandingPage() {
       <footer className="border-t border-white/5 px-6 py-12">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 md:flex-row">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand-500 to-accent-violet">
+            <div className="from-brand-500 to-accent-violet flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
             <span className="font-semibold">PrepAI</span>

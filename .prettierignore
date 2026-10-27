@@ -6,3 +6,6 @@ build
 coverage
 .env*.local
 *.tsbuildinfo
+.mongo-data
+scratch
+package-lock.json

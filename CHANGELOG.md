@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-06-12
 
 ### Added
+
 - **AI Mock Interviews**: Conversational behavioral and technical interviews powered by OpenAI `gpt-4o`.
 - **Resume Analyzer**: Instant PDF parsing (`pdf-parse`) and ATS optimization feedback.
 - **Coding Sandbox**: Integrated Monaco Editor with multi-language secure execution via Piston API.
@@ -19,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation**: Added comprehensive API, Database, Installation, and Deployment guides.
 
 ### Fixed
+
 - Fixed critical SSR `DOMMatrix` bug during `next build` by sandboxing `pdf-parse` via dynamic imports.
 - Replaced un-scalable API `console.error` logs with structured `logger.error` wrapper to prevent instance crashes.
 - Made Upstash Ratelimit fail gracefully for local development without `.env` config.

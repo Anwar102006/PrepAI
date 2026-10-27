@@ -3,7 +3,9 @@
 This guide explains how to deploy the PrepAI Mock Interview platform to production, targeting **Vercel** for the frontend/Next.js application and **Supabase (or Railway)** for the PostgreSQL Database.
 
 ## Overview of Security & Performance Improvements
+
 Before deploying, we have implemented several production-ready standards:
+
 - **Upstash Redis Rate Limiting**: Added strict API rate-limiting via `@upstash/ratelimit` to protect against DDoS and abuse.
 - **Dockerization**: A multi-stage `Dockerfile` has been configured using Next.js `standalone` mode to reduce the image size by 80%.
 - **Security Headers**: Standard security headers (X-Frame-Options, X-Content-Type-Options, Referrer-Policy) are injected natively via `next.config.ts`.
@@ -19,10 +21,11 @@ Before deploying, we have implemented several production-ready standards:
    - Navigate to the Database settings and find the Connection Pooler URI (starts with `postgresql://`).
 3. **Run Migrations Locally**:
    Before deploying Vercel, push your Prisma schema to the new production database:
+
    ```bash
    # Set the production connection string locally temporarily
    set DATABASE_URL="postgresql://user:password@your-db.supabase.com:6543/postgres"
-   
+
    # Push the schema and apply it
    npx prisma db push
    ```
@@ -32,6 +35,7 @@ Before deploying, we have implemented several production-ready standards:
 ## 2. Setting Up Rate Limiting (Upstash)
 
 PrepAI uses Upstash Redis to power rate limiting.
+
 1. Log in to [Upstash](https://upstash.com/).
 2. Create a new Redis database (free tier is perfectly sufficient).
 3. Retrieve your `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`.
@@ -51,12 +55,11 @@ Vercel is the most optimized platform for Next.js applications, offering Edge ne
    - `OPENAI_API_KEY` -> (Your production OpenAI key)
    - `UPSTASH_REDIS...` -> (From Step 2)
    - `GOOGLE/GITHUB OAUTH` -> (Update your OAuth providers to include your Vercel URL in their allowed redirect URIs: `https://your-domain.vercel.app/api/auth/callback/google`)
-   
 3. **Build Settings**:
    Vercel will automatically detect the Next.js framework. It will run:
    - Install Command: `npm install`
    - Build Command: `npm run build`
-   *(Prisma generates automatically during the build step thanks to our `postinstall` or Next.js cache).*
+     _(Prisma generates automatically during the build step thanks to our `postinstall` or Next.js cache)._
 
 4. **Deploy**: Click Deploy. Vercel will automatically run through the build steps.
 
@@ -84,6 +87,7 @@ If you prefer to deploy to a VPS, AWS ECS, or Railway via a Docker container:
 ---
 
 ## Post-Deployment Checklist
+
 - [ ] Attempt to Login / Register a user.
 - [ ] Upload a mock Resume PDF to test backend parsing memory limits.
 - [ ] Run a test Coding execution to verify Piston API reachability.

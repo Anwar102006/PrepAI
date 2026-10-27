@@ -5,10 +5,12 @@ PrepAI uses a relational **PostgreSQL** database managed by **Prisma ORM**. Belo
 ---
 
 ## `User`
+
 Stores the primary identity and role of every user on the platform.
+
 - **Primary Key**: `id` (String/CUID)
 - **Fields**: `email` (Unique), `name`, `password`, `image`, `role` (Default: "USER")
-- **Relationships**: 
+- **Relationships**:
   - 1-to-Many: `Account`, `Session`, `Interview`, `MockSession`, `ResumeAnalysis`, `CodeSubmission`
   - 1-to-1: `UserProgress`
 - **Purpose**: Central node connecting all authentication, telemetry, and platform activity data.
@@ -16,7 +18,9 @@ Stores the primary identity and role of every user on the platform.
 ---
 
 ## `CodeSubmission`
+
 Stores historical data regarding executed code in the coding sandbox.
+
 - **Primary Key**: `id` (String/CUID)
 - **Foreign Key**: `userId` (References `User.id`)
 - **Fields**: `language`, `code` (Text), `output`, `error`, `aiFeedback`, `score`, `createdAt`
@@ -25,7 +29,9 @@ Stores historical data regarding executed code in the coding sandbox.
 ---
 
 ## `ResumeAnalysis`
+
 Stores the AI-generated feedback reports for uploaded PDF resumes.
+
 - **Primary Key**: `id` (String/CUID)
 - **Foreign Key**: `userId` (References `User.id`)
 - **Fields**: `resumeUrl`, `score`, `suggestions` (Stringified JSON), `createdAt`
@@ -34,18 +40,22 @@ Stores the AI-generated feedback reports for uploaded PDF resumes.
 ---
 
 ## `MockSession`
+
 Records a simulated AI interview session.
+
 - **Primary Key**: `id` (String/CUID)
 - **Foreign Key**: `userId` (References `User.id`)
 - **Fields**: `type` (TECHNICAL, HR, BEHAVIORAL), `difficulty`, `status`, `score`, `feedback`, `createdAt`
-- **Relationships**: 
+- **Relationships**:
   - 1-to-Many: `MockSessionMessage` (Chat history), `MockSessionQuestion`
 - **Purpose**: Groups together chat interactions and scoring data for a singular interview event.
 
 ---
 
 ## `MockSessionMessage`
+
 Stores the turn-by-turn chat transcripts between the user and the AI.
+
 - **Primary Key**: `id` (String/CUID)
 - **Foreign Key**: `mockSessionId` (References `MockSession.id`)
 - **Fields**: `role` ("user", "assistant", "system"), `content` (Text), `createdAt`
@@ -54,7 +64,9 @@ Stores the turn-by-turn chat transcripts between the user and the AI.
 ---
 
 ## `UserProgress`
+
 Maintains an aggregated dashboard of the user's historical performance.
+
 - **Primary Key**: `id` (String/CUID)
 - **Foreign Key**: `userId` (References `User.id`) - Unique
 - **Fields**: `interviewsCount`, `averageScore`, `lastActive`
@@ -63,7 +75,9 @@ Maintains an aggregated dashboard of the user's historical performance.
 ---
 
 ## Auth.js Internal Tables
+
 The schema also includes mandatory tables required by NextAuth (v5) for credential and OAuth management:
+
 - **`Account`**: Stores OAuth provider links (e.g., Google, GitHub).
 - **`Session`**: Stores active JSON Web Token (JWT) equivalents if using database sessions.
 - **`VerificationToken`**: Stores ephemeral tokens used for magic-link logins or password resets.

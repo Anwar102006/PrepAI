@@ -3,7 +3,8 @@
 
 export const siteConfig = {
   name: 'PrepAI',
-  description: 'AI-powered interview preparation platform. Master your next interview with realistic mock interviews, resume analysis, and coding challenges.',
+  description:
+    'AI-powered interview preparation platform. Master your next interview with realistic mock interviews, resume analysis, and coding challenges.',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
   ogImage: '/og/default.png',
   creator: 'PrepAI Team',

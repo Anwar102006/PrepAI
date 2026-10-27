@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     if (jsonString.startsWith('\`\`\`json')) {
       jsonString = jsonString.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '');
     }
-    
+
     let feedbackData;
     try {
       feedbackData = JSON.parse(jsonString);
@@ -83,8 +83,9 @@ export async function POST(req: Request) {
     if (userProgress) {
       const newCount = userProgress.interviewsCount + 1;
       const newAverage =
-        (userProgress.averageScore * userProgress.interviewsCount + feedbackData.overallScore) / newCount;
-      
+        (userProgress.averageScore * userProgress.interviewsCount + feedbackData.overallScore) /
+        newCount;
+
       await prisma.userProgress.update({
         where: { userId: session.user.id },
         data: {
@@ -104,7 +105,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(updatedSession);
   } catch (error) {
-    logger.error('Feedback generation error', { error: error instanceof Error ? error.message : 'Unknown' });
+    logger.error('Feedback generation error', {
+      error: error instanceof Error ? error.message : 'Unknown',
+    });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

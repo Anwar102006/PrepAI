@@ -51,8 +51,13 @@ export async function POST(req: Request) {
       const parsed = await pdfParse(buffer);
       pdfText = parsed.text;
     } catch (err) {
-      logger.error('Failed to parse PDF', { error: err instanceof Error ? err.message : 'Unknown' });
-      return new NextResponse('Failed to parse PDF file. Please ensure it is a valid text-based PDF.', { status: 400 });
+      logger.error('Failed to parse PDF', {
+        error: err instanceof Error ? err.message : 'Unknown',
+      });
+      return new NextResponse(
+        'Failed to parse PDF file. Please ensure it is a valid text-based PDF.',
+        { status: 400 }
+      );
     }
 
     const resumeText = pdfText;
@@ -75,7 +80,7 @@ export async function POST(req: Request) {
     if (jsonString.startsWith('\`\`\`json')) {
       jsonString = jsonString.replace(/\`\`\`json/g, '').replace(/\`\`\`/g, '');
     }
-    
+
     let analysisData;
     try {
       analysisData = JSON.parse(jsonString);
@@ -96,7 +101,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(analysis);
   } catch (error) {
-    logger.error('Resume Analysis Error', { error: error instanceof Error ? error.message : 'Unknown' });
+    logger.error('Resume Analysis Error', {
+      error: error instanceof Error ? error.message : 'Unknown',
+    });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

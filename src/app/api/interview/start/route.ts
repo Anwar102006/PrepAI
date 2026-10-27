@@ -49,7 +49,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json(mockSession);
   } catch (error) {
-    logger.error('Error starting interview', { error: error instanceof Error ? error.message : 'Unknown' });
+    logger.error('Error starting interview', {
+      error: error instanceof Error ? error.message : 'Unknown',
+    });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

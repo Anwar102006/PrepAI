@@ -8,12 +8,8 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
-  const isProtectedRoute = protectedRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  );
-  const isAuthRoute = authRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
-  );
+  const isProtectedRoute = protectedRoutes.some((route) => nextUrl.pathname.startsWith(route));
+  const isAuthRoute = authRoutes.some((route) => nextUrl.pathname.startsWith(route));
 
   // Redirect unauthenticated users to login
   if (isProtectedRoute && !isLoggedIn) {

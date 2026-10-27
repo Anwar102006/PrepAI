@@ -1,19 +1,19 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker deployments
-  output: "standalone",
+  output: 'standalone',
 
   // Image optimization
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "lh3.googleusercontent.com", // Google OAuth avatars
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com', // Google OAuth avatars
       },
       {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com", // GitHub avatars
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com', // GitHub avatars
       },
     ],
   },
@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
   experimental: {
     // Enable server actions
     serverActions: {
-      bodySizeLimit: "10mb",
+      bodySizeLimit: '10mb',
     },
   },
 
@@ -33,23 +33,23 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: "/(.*)",
+        source: '/(.*)',
         headers: [
           {
-            key: "X-Frame-Options",
-            value: "DENY",
+            key: 'X-Frame-Options',
+            value: 'DENY',
           },
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
           },
           {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
           },
           {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
           },
         ],
       },

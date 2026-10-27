@@ -15,7 +15,7 @@ export default function InterviewsPage() {
       </div>
 
       {/* Placeholder */}
-      <div className="mt-8 rounded-2xl border border-white/5 bg-surface-50/50 p-12 text-center">
+      <div className="bg-surface-50/50 mt-8 rounded-2xl border border-white/5 p-12 text-center">
         <p className="text-white/30">Interview list will be implemented in Phase 2.</p>
       </div>
     </div>

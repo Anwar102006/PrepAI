@@ -5,6 +5,7 @@ All PrepAI backend endpoints are natively built using Next.js App Router Route H
 ---
 
 ## Global Requirements
+
 - **Authentication**: All endpoints (except Auth) require an active NextAuth session cookie.
 - **Rate Limiting**: All endpoints are protected by Upstash Redis (Sliding Window Algorithm).
 
@@ -13,22 +14,24 @@ All PrepAI backend endpoints are natively built using Next.js App Router Route H
 ## 1. Authentication
 
 ### `POST /api/auth/register`
+
 Creates a new user account in the database.
+
 - **Auth Required**: No
 - **Rate Limit**: 5 requests per 15 minutes per IP.
 - **Request Body**:
   \`\`\`json
   {
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "securepassword123"
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "securepassword123"
   }
   \`\`\`
 - **Success Response (201 Created)**:
   \`\`\`json
   {
-    "message": "User created successfully",
-    "user": { "id": "cuid...", "email": "john@example.com" }
+  "message": "User created successfully",
+  "user": { "id": "cuid...", "email": "john@example.com" }
   }
   \`\`\`
 - **Error Responses**:
@@ -41,7 +44,9 @@ Creates a new user account in the database.
 ## 2. Resume Analyzer
 
 ### `POST /api/resume/analyze`
+
 Accepts a PDF file, extracts the text using `pdf-parse`, and utilizes OpenAI `gpt-4o` to generate an ATS optimization report.
+
 - **Auth Required**: Yes (User)
 - **Rate Limit**: 10 requests per 10 seconds per IP.
 - **Request Body**: `multipart/form-data`
@@ -49,11 +54,11 @@ Accepts a PDF file, extracts the text using `pdf-parse`, and utilizes OpenAI `gp
 - **Success Response (200 OK)**:
   \`\`\`json
   {
-    "score": 85,
-    "issues": ["Formatting error on page 1"],
-    "identifiedSkills": ["React", "TypeScript"],
-    "recommendedSkills": ["Docker", "AWS"],
-    "actionPlan": ["Add quantifiable metrics to experience 1"]
+  "score": 85,
+  "issues": ["Formatting error on page 1"],
+  "identifiedSkills": ["React", "TypeScript"],
+  "recommendedSkills": ["Docker", "AWS"],
+  "actionPlan": ["Add quantifiable metrics to experience 1"]
   }
   \`\`\`
 - **Error Responses**:
@@ -66,32 +71,34 @@ Accepts a PDF file, extracts the text using `pdf-parse`, and utilizes OpenAI `gp
 ## 3. Coding Execution
 
 ### `POST /api/coding/execute`
+
 Securely executes source code against the Piston API and generates an AI review for time/space complexity.
+
 - **Auth Required**: Yes (User)
 - **Rate Limit**: 10 requests per 10 seconds per IP.
 - **Request Body**:
   \`\`\`json
   {
-    "language": "python",
-    "code": "print('Hello World')"
+  "language": "python",
+  "code": "print('Hello World')"
   }
   \`\`\`
 - **Success Response (200 OK)**:
   \`\`\`json
   {
-    "id": "code_submission_cuid",
-    "output": "Hello World\n",
-    "error": "",
-    "review": {
-      "score": 100,
-      "complexity": { "time": "O(1)", "space": "O(1)" },
-      "review": {
-        "positives": ["Clean syntax"],
-        "issues": [],
-        "improvements": []
-      },
-      "optimizedCode": "print('Hello World')"
-    }
+  "id": "code_submission_cuid",
+  "output": "Hello World\n",
+  "error": "",
+  "review": {
+  "score": 100,
+  "complexity": { "time": "O(1)", "space": "O(1)" },
+  "review": {
+  "positives": ["Clean syntax"],
+  "issues": [],
+  "improvements": []
+  },
+  "optimizedCode": "print('Hello World')"
+  }
   }
   \`\`\`
 - **Error Responses**:
@@ -103,20 +110,22 @@ Securely executes source code against the Piston API and generates an AI review 
 ## 4. Admin Panel
 
 ### `GET /api/admin/stats`
+
 Retrieves aggregated platform usage statistics for the admin dashboard.
+
 - **Auth Required**: Yes (Role: `ADMIN` only)
 - **Request Body**: None
 - **Success Response (200 OK)**:
   \`\`\`json
   {
-    "stats": {
-      "totalUsers": 150,
-      "totalInterviews": 45,
-      "totalMockSessions": 120,
-      "totalCodeSubmissions": 350
-    },
-    "recentUsers": [...],
-    "usageData": [...]
+  "stats": {
+  "totalUsers": 150,
+  "totalInterviews": 45,
+  "totalMockSessions": 120,
+  "totalCodeSubmissions": 350
+  },
+  "recentUsers": [...],
+  "usageData": [...]
   }
   \`\`\`
 - **Error Responses**:

@@ -39,12 +39,12 @@ export function Topbar() {
 
   return (
     <>
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-white/5 bg-surface-0/80 px-6 backdrop-blur-xl">
+      <header className="bg-surface-0/80 flex h-16 shrink-0 items-center justify-between border-b border-white/5 px-6 backdrop-blur-xl">
         <div className="flex items-center gap-4">
           {/* Mobile menu button */}
           <button
             onClick={() => setMobileMenuOpen(true)}
-            className="lg:hidden text-white/60 hover:text-white"
+            className="text-white/60 hover:text-white lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -60,11 +60,11 @@ export function Topbar() {
           {/* Notifications */}
           <button className="relative flex h-9 w-9 items-center justify-center rounded-xl text-white/40 transition-colors hover:bg-white/5 hover:text-white/70">
             <Bell className="h-4 w-4" />
-            <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-brand-500" />
+            <span className="bg-brand-500 absolute top-1.5 right-1.5 h-2 w-2 rounded-full" />
           </button>
 
           {/* User Avatar */}
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-violet text-sm font-bold text-white">
+          <div className="from-brand-500 to-accent-violet flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br text-sm font-bold text-white">
             P
           </div>
         </div>
@@ -73,16 +73,24 @@ export function Topbar() {
       {/* Mobile Navigation Overlay */}
       {mobileMenuOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileMenuOpen(false)} />
-          <div className="absolute left-0 top-0 h-full w-72 animate-slide-down bg-surface-50 p-4 shadow-2xl">
+          <div
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="animate-slide-down bg-surface-50 absolute top-0 left-0 h-full w-72 p-4 shadow-2xl">
             <div className="mb-6 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-500 to-accent-violet">
+                <div className="from-brand-500 to-accent-violet flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br">
                   <Sparkles className="h-5 w-5 text-white" />
                 </div>
-                <span className="text-lg font-bold">Prep<span className="gradient-text">AI</span></span>
+                <span className="text-lg font-bold">
+                  Prep<span className="gradient-text">AI</span>
+                </span>
               </div>
-              <button onClick={() => setMobileMenuOpen(false)} className="text-white/40 hover:text-white">
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-white/40 hover:text-white"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -103,7 +111,9 @@ export function Topbar() {
                         : 'text-white/50 hover:bg-white/5 hover:text-white/80'
                     )}
                   >
-                    <Icon className={cn('h-5 w-5', isActive ? 'text-brand-400' : 'text-white/40')} />
+                    <Icon
+                      className={cn('h-5 w-5', isActive ? 'text-brand-400' : 'text-white/40')}
+                    />
                     {item.title}
                   </Link>
                 );

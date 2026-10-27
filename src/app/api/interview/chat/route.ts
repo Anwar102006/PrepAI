@@ -43,7 +43,10 @@ export async function POST(req: Request) {
         data: {
           mockSessionId: sessionId,
           role: 'user',
-          content: typeof lastMessage.content === 'string' ? lastMessage.content : JSON.stringify(lastMessage.content),
+          content:
+            typeof lastMessage.content === 'string'
+              ? lastMessage.content
+              : JSON.stringify(lastMessage.content),
         },
       });
     }

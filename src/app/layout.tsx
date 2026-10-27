@@ -62,10 +62,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
-      <body className="min-h-screen bg-surface-0 font-sans antialiased">
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="bg-surface-0 min-h-screen font-sans antialiased">{children}</body>
     </html>
   );
 }

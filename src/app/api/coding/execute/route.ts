@@ -75,7 +75,9 @@ export async function POST(req: Request) {
         executionError = 'Failed to connect to execution engine.';
       }
     } catch (error) {
-      logger.error('Piston Execution Error', { error: error instanceof Error ? error.message : 'Unknown' });
+      logger.error('Piston Execution Error', {
+        error: error instanceof Error ? error.message : 'Unknown',
+      });
       executionError = 'Execution service is temporarily unavailable.';
     }
 
@@ -97,7 +99,9 @@ export async function POST(req: Request) {
 
       aiFeedbackData = JSON.parse(jsonString);
     } catch (error) {
-      logger.warn('AI Review Error (non-fatal)', { error: error instanceof Error ? error.message : 'Unknown' });
+      logger.warn('AI Review Error (non-fatal)', {
+        error: error instanceof Error ? error.message : 'Unknown',
+      });
       // We don't fail the request if AI review fails, just leave it null
     }
 
@@ -121,7 +125,9 @@ export async function POST(req: Request) {
       review: aiFeedbackData,
     });
   } catch (error) {
-    logger.error('Coding execution route error', { error: error instanceof Error ? error.message : 'Unknown' });
+    logger.error('Coding execution route error', {
+      error: error instanceof Error ? error.message : 'Unknown',
+    });
     return new NextResponse('Internal Server Error', { status: 500 });
   }
 }

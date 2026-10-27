@@ -27,12 +27,12 @@ export default function ForgotPasswordPage() {
         </div>
         <h2 className="text-2xl font-bold tracking-tight">Check your email</h2>
         <p className="mt-3 text-white/50">
-          We sent a password reset link to <span className="text-white/70">{email}</span>.
-          Please check your inbox.
+          We sent a password reset link to <span className="text-white/70">{email}</span>. Please
+          check your inbox.
         </p>
         <Link
           href="/login"
-          className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-brand-400 hover:text-brand-300"
+          className="text-brand-400 hover:text-brand-300 mt-8 inline-flex items-center gap-2 text-sm font-medium"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to sign in
@@ -50,16 +50,18 @@ export default function ForgotPasswordPage() {
 
       <form onSubmit={handleSubmit} className="mt-8 space-y-4">
         <div>
-          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-white/70">Email</label>
+          <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-white/70">
+            Email
+          </label>
           <div className="relative">
-            <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/30" />
+            <Mail className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-white/30" />
             <input
               id="email"
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-white/[0.03] py-3 pl-10 pr-4 text-sm text-white placeholder-white/25 transition-colors focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              className="focus:border-brand-500 focus:ring-brand-500 w-full rounded-xl border border-white/10 bg-white/[0.03] py-3 pr-4 pl-10 text-sm text-white placeholder-white/25 transition-colors focus:ring-1 focus:outline-none"
               required
             />
           </div>
@@ -68,7 +70,7 @@ export default function ForgotPasswordPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-brand-500 to-brand-600 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/25 transition-all hover:shadow-xl hover:shadow-brand-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+          className="group from-brand-500 to-brand-600 shadow-brand-500/25 hover:shadow-brand-500/30 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r py-3 text-sm font-semibold text-white shadow-lg transition-all hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isLoading ? (
             <div className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />

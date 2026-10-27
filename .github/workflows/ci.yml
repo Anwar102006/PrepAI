@@ -55,7 +55,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: 'postgresql://test:test@localhost:5432/test'
+          DATABASE_URL: 'mongodb://127.0.0.1:27018/test?replicaSet=rs0&directConnection=true'
           NEXTAUTH_SECRET: 'ci-secret'
           NEXTAUTH_URL: 'http://localhost:3000'
 

@@ -3,11 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
   email         String    @unique
   name          String?
   password      String?
@@ -23,22 +24,22 @@ model User {
   mockSessions   MockSession[]
   resumeAnalyses ResumeAnalysis[]
   progress       UserProgress?
-  skills          UserSkill[]
+  skills         UserSkill[]
   codeSubmissions CodeSubmission[]
 }
 
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -47,14 +48,15 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
   sessionToken String   @unique
-  userId       String
+  userId       String   @db.ObjectId
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
   identifier String
   token      String   @unique
   expires    DateTime
@@ -63,8 +65,8 @@ model VerificationToken {
 }
 
 model Interview {
-  id          String   @id @default(cuid())
-  userId      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
   title       String
   scheduledAt DateTime
   status      String   @default("PENDING")
@@ -75,7 +77,7 @@ model Interview {
 }
 
 model Question {
-  id         String @id @default(cuid())
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
   content    String
   type       String
   difficulty String @default("MEDIUM")
@@ -84,8 +86,8 @@ model Question {
 }
 
 model ResumeAnalysis {
-  id          String   @id @default(cuid())
-  userId      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
   resumeUrl   String
   score       Float
   suggestions String
@@ -95,8 +97,8 @@ model ResumeAnalysis {
 }
 
 model Feedback {
-  id           String   @id @default(cuid())
-  interviewId  String   @unique
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  interviewId  String   @unique @db.ObjectId
   strengths    String
   weaknesses   String
   overallScore Float
@@ -106,8 +108,8 @@ model Feedback {
 }
 
 model UserProgress {
-  id              String   @id @default(cuid())
-  userId          String   @unique
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String   @unique @db.ObjectId
   interviewsCount Int      @default(0)
   averageScore    Float    @default(0.0)
   lastActive      DateTime @default(now())
@@ -116,16 +118,16 @@ model UserProgress {
 }
 
 model Skill {
-  id   String @id @default(cuid())
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique
 
   users UserSkill[]
 }
 
 model UserSkill {
-  id          String @id @default(cuid())
-  userId      String
-  skillId     String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String @db.ObjectId
+  skillId     String @db.ObjectId
   proficiency Int    @default(1)
 
   user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -135,13 +137,13 @@ model UserSkill {
 }
 
 model MockSession {
-  id          String   @id @default(cuid())
-  userId      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
   type        String   @default("BEHAVIORAL") // TECHNICAL, HR, BEHAVIORAL
   difficulty  String   @default("MEDIUM")     // EASY, MEDIUM, HARD, EXPERT
   status      String   @default("IN_PROGRESS")
   score       Float?
-  feedback    String?  @db.Text
+  feedback    String?
   createdAt   DateTime @default(now())
 
   user        User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -150,19 +152,19 @@ model MockSession {
 }
 
 model MockSessionMessage {
-  id            String   @id @default(cuid())
-  mockSessionId String
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  mockSessionId String   @db.ObjectId
   role          String   // user, assistant, system
-  content       String   @db.Text
+  content       String
   createdAt     DateTime @default(now())
 
   mockSession   MockSession @relation(fields: [mockSessionId], references: [id], onDelete: Cascade)
 }
 
 model MockSessionQuestion {
-  id            String  @id @default(cuid())
-  mockSessionId String
-  questionId    String
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  mockSessionId String  @db.ObjectId
+  questionId    String  @db.ObjectId
   userAnswer    String?
   aiFeedback    String?
   score         Float?
@@ -174,13 +176,13 @@ model MockSessionQuestion {
 }
 
 model CodeSubmission {
-  id          String   @id @default(cuid())
-  userId      String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String   @db.ObjectId
   language    String
-  code        String   @db.Text
-  output      String?  @db.Text
-  error       String?  @db.Text
-  aiFeedback  String?  @db.Text
+  code        String
+  output      String?
+  error       String?
+  aiFeedback  String?
   score       Float?
   createdAt   DateTime @default(now())
 

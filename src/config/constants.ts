@@ -12,9 +12,24 @@ export const ALLOWED_RESUME_TYPES = [
 
 // ─── Interview ──────────────────────────────────────────────────
 export const INTERVIEW_TYPES = [
-  { value: 'BEHAVIORAL', label: 'Behavioral', icon: 'Users', description: 'Situational & behavioral questions' },
-  { value: 'TECHNICAL', label: 'Technical', icon: 'Code', description: 'Technical knowledge & problem-solving' },
-  { value: 'SYSTEM_DESIGN', label: 'System Design', icon: 'Network', description: 'Architecture & scalability' },
+  {
+    value: 'BEHAVIORAL',
+    label: 'Behavioral',
+    icon: 'Users',
+    description: 'Situational & behavioral questions',
+  },
+  {
+    value: 'TECHNICAL',
+    label: 'Technical',
+    icon: 'Code',
+    description: 'Technical knowledge & problem-solving',
+  },
+  {
+    value: 'SYSTEM_DESIGN',
+    label: 'System Design',
+    icon: 'Network',
+    description: 'Architecture & scalability',
+  },
   { value: 'HR', label: 'HR Round', icon: 'Briefcase', description: 'Culture fit & expectations' },
   { value: 'MIXED', label: 'Mixed', icon: 'Shuffle', description: 'Combination of all types' },
 ] as const;
@@ -62,8 +77,8 @@ export const MAX_PAGE_SIZE = 50;
 
 // ─── Rate Limiting ──────────────────────────────────────────────
 export const RATE_LIMITS = {
-  api: { requests: 100, window: 60 },       // 100 req/min
-  ai: { requests: 20, window: 60 },         // 20 req/min for AI endpoints
-  auth: { requests: 10, window: 60 },       // 10 req/min for auth
-  upload: { requests: 5, window: 60 },      // 5 uploads/min
+  api: { requests: 100, window: 60 }, // 100 req/min
+  ai: { requests: 20, window: 60 }, // 20 req/min for AI endpoints
+  auth: { requests: 10, window: 60 }, // 10 req/min for auth
+  upload: { requests: 5, window: 60 }, // 5 uploads/min
 } as const;

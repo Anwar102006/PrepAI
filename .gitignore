@@ -51,3 +51,5 @@ next-env.d.ts
 *.pem
 scratch/
 knowledge/
+.mongo-data/
+*.log

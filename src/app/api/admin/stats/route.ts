@@ -9,23 +9,18 @@ export async function GET() {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const [
-      totalUsers,
-      totalInterviews,
-      totalMockSessions,
-      totalCodeSubmissions,
-      recentUsers,
-    ] = await Promise.all([
-      prisma.user.count(),
-      prisma.interview.count(),
-      prisma.mockSession.count(),
-      prisma.codeSubmission.count(),
-      prisma.user.findMany({
-        take: 5,
-        orderBy: { createdAt: 'desc' },
-        select: { id: true, name: true, email: true, createdAt: true, role: true },
-      }),
-    ]);
+    const [totalUsers, totalInterviews, totalMockSessions, totalCodeSubmissions, recentUsers] =
+      await Promise.all([
+        prisma.user.count(),
+        prisma.interview.count(),
+        prisma.mockSession.count(),
+        prisma.codeSubmission.count(),
+        prisma.user.findMany({
+          take: 5,
+          orderBy: { createdAt: 'desc' },
+          select: { id: true, name: true, email: true, createdAt: true, role: true },
+        }),
+      ]);
 
     // Aggregate stats by day for the last 7 days (simplified for demo)
     const usageData = [
